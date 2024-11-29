@@ -1,2 +1,5 @@
-# python_rfm
+# python_rfm 
 Python - Superstore - Using RFM analysis to better promotional campaign
+
+## Context Overview
+
