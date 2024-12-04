@@ -41,8 +41,10 @@ To drop null values, we would utilize .dropna() method
 
 The dataframe is now clean, allowing us to explore some fundamental statistics using the .describe() method.
 ![image](https://github.com/user-attachments/assets/ddd7a433-0a64-4dc1-9f77-322348c49e15)
-It is incorrect for the minimum quantity to be less than zero, which suggests a data manipulation task. For every quantity value that is less than zero, I would convert them into "0" using this command: ecom_df.loc[ecom_df['Quantity'] < 0, 'Quantity'] = 0.
-![image](https://github.com/user-attachments/assets/06b1ce8c-5bd8-44ae-bba4-afb0d7d85d1b)
+It is not valid for the minimum quantity to be less than zero, indicating the need for data manipulation. Any rows containing quantity values below zero will be removed. Converting these negative values to zero would artificially inflate the frequency, leading to potentially misleading insights.
+
+![image](https://github.com/user-attachments/assets/d649c097-1c1d-4ce4-8111-c8fe25b4ede2)
+
 **Quantity column analysis**
 
 **Statistics:**
@@ -93,14 +95,96 @@ As for the key metrics of `Quantity` and `UnitPrice`, we can:
 
 As illustrated, the outliers are distorting the distribution, making it challenging to identify normal distributions. While we must remain aware that these outliers could provide valuable insights, we should first examine the normal distribution.
 ![image](https://github.com/user-attachments/assets/819155e2-6dc1-4cc9-9f20-8ae83bb8ac4b)
-![image](https://github.com/user-attachments/assets/5f3c2bdb-2857-421b-a33a-edc7ec32a5d5)
 
-!!! Analyze this
+Customers typically purchase baskets containing either 2 to 5 items or approximately 10 to 15 items.
+![image](https://github.com/user-attachments/assets/5f3c2bdb-2857-421b-a33a-edc7ec32a5d5)
+The preferred price points for customers typically range from $1 to $2, while the overall distribution of prices spans from just above $0 to $7. This indicates that most purchases are concentrated at lower price levels, with a small portion extending towards the higher end of the spectrum.
+
+To address the anomalies, I will organize those transactions into a dataframe. This will allow us to identify the customer segments associated with these outlier transactions and analyze their behaviors in order to gain deeper insights.
+
+![image](https://github.com/user-attachments/assets/02d7492b-a9ca-4b2d-a957-6bd26a1c281f)
+
+Before moving on, a column of `Revenue` would be added to the original dataframe of ecom_df to confirm what we've known.
+![image](https://github.com/user-attachments/assets/0faf6718-eeae-488c-818b-0de157cb3411)
+**Statistics**
+- Mean: The average revenue per transaction is approximately $21.90. This value provides a baseline for understanding typical sales amounts.
+- Standard Deviation (std): quite high relative to the mean, indicating significant variability in revenue. This suggests that while many transactions hover around the mean, there are numerous transactions (especially high-revenue transactions) that contribute to this high variability.
+- Minimum: The minimum revenue is $0.00, which likely indicates transactions where no items were purchased, returns, or other anomalies. It's important to analyze the context of these zero-revenue transactions, as they could skew statistics and insights.
+- 25th Percentile (Q1): 4.20 - This means that 25% of the transactions generate revenues of $4.20 or less. It's indicative of lower-value transactions, possibly from bulk purchases or lower-priced items.
+- 50th Percentile (Median, Q2): 11.10 - The median revenue is $11.10, which tells us that half of the transactions produce revenue equal to or less than this amount. The median is less influenced by high outliers, offering a better center point of typical transaction values.
+- 75th Percentile (Q3): 19.50 - This shows that 75% of the transactions generate revenues of $19.50 or less. It has a significant implication on upper transaction value trends.
+- Maximum: 168,469.60 - The maximum revenue is notably high, indicating that there are very high-value transactions that can skew average calculations (mean) and may represent either bulk orders or high-value customer purchases.
+
+**Insights**
+
+- High Variability: The high standard deviation compared to the mean indicates a wide range of revenue amounts. Many transactions likely fall below the average, but a few high-revenue transactions significantly impact the overall mean.
+- Low Revenue Transactions: With a minimum of zero and a first quartile of $4.20, many transactions likely involve low sales amounts. This could reflect sales of inexpensive items or possible returns.
+- Transactional Insights: The difference between the 25th percentile ($4.20) and the median ($11.10) indicates that while there are low-value transactions, the median revenue rises significantly, showing that many customers are also purchasing more expensive items.
+
+This histogram (outliers removed) will confirm the insights provided: 
+![image](https://github.com/user-attachments/assets/46c4d1a2-19f4-4744-9713-229c285a112c)
+
 
 As for categorical variables - `Country`:
-![image](https://github.com/user-attachments/assets/dfcfe364-0352-4bb8-b423-cc14e42e3f8a)
+![image](https://github.com/user-attachments/assets/8cea9d4b-40f8-49c0-83a4-6910482eb3ba)
+
+### Stage 2: RFM Analysis
+#### Step 1: Create a dataframe of unique customers
+As RFM is a customer-level metric (we label customers one by one), a unique customer dataframe is needed to proceed the next steps.
+
+![image](https://github.com/user-attachments/assets/193b94cd-4441-482e-adb5-ab34ed99eea4)
+
+#### Step 2: Calculate Customer Recency
+Recency = the nearest date that the customers engaged with us through purchases => 
+![image](https://github.com/user-attachments/assets/44fd78dc-e659-46be-ab69-08b4850bc4ba)
+Renaming the column to match the context: 
+![image](https://github.com/user-attachments/assets/6f9587e7-2eb3-4338-b45e-1a96e873fc05)
+
+Given the context of the dataset's date, I will treat "2012-01-01" as the current date. We will proceed to create a "recency" column that calculates the number of days from "recency_date" to "2012-01-01". This duration is referred to as the timedelta between the analysis date and the "recency_date." The resulting time difference will then be divided by a timedelta representing one day to convert it into a numerical value that indicates recency in days. Below is an explanation of how the code functions:
+
+![image](https://github.com/user-attachments/assets/101a9a33-da6e-4d15-8d83-057f9042934f)
 
 
+#### Step 3: Calculate Customer Frequency
 
+Frequency refers to the number of times customers have made purchases, determined by counting unique invoices. The subsequent code operates as follows: it calculates the "frequency" value by counting the unique invoices and grouping the results by CustomerID. Then, the column name "InvoiceNo" is changed to "frequency." Finally, this new frequency column is merged into the previously created ecom_customer dataframe.
 
+![image](https://github.com/user-attachments/assets/01531dd5-e707-49dc-a598-6e5b82782c06)
+
+#### Step 4: Calculate Customer Monetary
+Monetary value essentially represents revenue, which we have established previously. Our next step is to rename the column to "monetary" and incorporate it into the ecom_customer dataframe. Here’s the process:
+![image](https://github.com/user-attachments/assets/2d64f5f3-0d25-48e5-b811-0efca6d48083)
+
+##### Step 5: Examine the statistical distributions
+
+![image](https://github.com/user-attachments/assets/44eaad5f-a584-49f8-aabb-fca50c314c25)
+
+![image](https://github.com/user-attachments/assets/439b3c65-e33a-455c-8796-c041f61d88f8)
+
+Recency comment:
+- Seems like there is a significant number of customers engaging with Superstore e-commerce (under 100 days).
+- These customers are quite active, indicating that they might be more responsive to Superstore marketing campaigns, indicating the potential targets.
+- The values distributed in other bins suggest that Superstore need to re-engage customers with >100 days in recency.
+
+Frequency comment:
+- The concentration of density and bars in the 0-50 range suggests that there might be a segment of customers who are more active and engaged with Superstore's e-commerce platform. These customers with higher frequencies may represent a key target segment for the company's marketing efforts and retention strategies.
+- For those in the tail of the analysis, we might need to analyze them to understand their behaviors and unique needs as high frequency customers do bring significant values.
+
+Monetary Comment
+- This is also a skewed distribution, meaning that only a few customers generate substantial monetary value to Superstore. This indicates a deeper investigation to reveal the high-value customers, who need special treatments.
+- This distribution indicates the spending habit of the current customers of Superstore, focusing on small transactions. This insight can help in tailoring the company's marketing and pricing strategies.
+
+Now, I would like to examine the normal distribution of the metrics, excluding outliers, to gain a clearer understanding of typical behaviors.
+
+![image](https://github.com/user-attachments/assets/ce1cb380-86e8-4055-9129-be90f2ab5842)
+![image](https://github.com/user-attachments/assets/f2c0b5e9-a84c-475d-93ca-d86552a742e7)
+
+Recency comment:
+- As observed earlier, Superstore's customers are quite active, who tend to come back to the store in around a month or so. Knowing that 25 days is a common recency value can guide your marketing timing for promotions, reminders, or campaigns to maximize conversion rates. For example, sending an email reminder or promotional offer could be timed for 20-25 days after their last purchase.
+
+Frequency comment:
+- However, most customers are one-time customers, with some of them do return twice or more. The business could focus on ways to convert these one-time buyers into repeat customers, such as follow-up emails, loyalty programs, or targeted promotions.
+
+Monetary Comment
+- The mode of around $200 suggest that many transactions occur at or around this value, which could suggest that $200 is a typical price point for popular products or services offered by the business. The business might identify segments of customers who tend to spend around $200, allowing for targeted marketing strategies and personalized offers to encourage those customers to increase their spending or shop for complementary products.
 
