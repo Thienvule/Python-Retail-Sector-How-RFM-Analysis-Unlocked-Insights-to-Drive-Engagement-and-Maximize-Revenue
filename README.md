@@ -128,7 +128,7 @@ This histogram (outliers removed) will confirm the insights provided:
 As for categorical variables - `Country`:
 ![image](https://github.com/user-attachments/assets/8cea9d4b-40f8-49c0-83a4-6910482eb3ba)
 
-### Stage 2: RFM Analysis
+### Stage 2: RFM Calculation and Exploration
 #### Step 1: Create a dataframe of unique customers
 As RFM is a customer-level metric (we label customers one by one), a unique customer dataframe is needed to proceed the next steps.
 
@@ -188,3 +188,62 @@ Frequency comment:
 Monetary Comment
 - The mode of around $200 suggest that many transactions occur at or around this value, which could suggest that $200 is a typical price point for popular products or services offered by the business. The business might identify segments of customers who tend to spend around $200, allowing for targeted marketing strategies and personalized offers to encourage those customers to increase their spending or shop for complementary products.
 
+### Stage 3: Calculating RFM scores using quantile-based discretization
+#### Step 1: Calculate the R score
+
+Since customers with lower recency are considered more valuable than those with higher recency, the scoring methodology for the "R" category differs from the others. To divide customers into approximately equal groups, I will use the qcut() function on the recency column and assign labels ranging from 5 to 1. This ensures that the highest score (5) is assigned to customers with the lowest recency, indicating their higher value.
+
+
+![image](https://github.com/user-attachments/assets/74231599-c4d6-40fc-b681-70959ee4d3e5)
+
+
+Let's take a look at the scores to briefly understand our customers: 
+
+![image](https://github.com/user-attachments/assets/0ebd3bb1-c84a-4dd0-ac34-98513c7ef7a9)
+
+This table provides clear insights into customer behavior based on their labels. For instance, customers labeled as '5' typically return to Superstore after an average of approximately one month and 27 days. In contrast, those labeled as '1' do not appear to return even six months after their initial purchase.
+
+#### Step 2: Calculate the F score
+While calculating the F score, I discovered that data skewness presents a significant challenge due to overlapping bin edges, resulting in ambiguity when assigning data points.
+
+Explanation:
+
+Quantile-based discretization - qcut() - divides the dataset into bins based on percentiles of the overall data distribution, without considering the specific distribution or pattern within the data, such as the skewed distribution of order volumes. This can result in closer bin edges in regions with more concentrated data points, leading to overlapping bins. As a consequence, some data points may fall into multiple bins simultaneously, causing ambiguity in their assignment.
+
+For instance, let's say the first bin edge is at 50, and the second bin edge is at 100. If we have two order volumes, 55 and 60, they are relatively close to each other. However, due to the overlapping bin edges, one of these values may be assigned to the lower bin, while the other falls into the higher bin, causing ambiguity and potential misclassification.
+
+Solution: Using .rank(method = 'first')
+
+This method assigns a unique position or rank to each value based on their order within the data. This guarantees that each value is distinct and eliminates the possibility of overlapping bin edges.
+![image](https://github.com/user-attachments/assets/1f0f6247-1a97-4fe3-bd33-bc6a7d860a07)
+![image](https://github.com/user-attachments/assets/80d8e3d5-9ba5-4fb0-b280-17ebea3a27ab)
+
+#### Step 3: Calculate the M score
+Moving forward, the scale will range from 1 to 5, with 5 representing the highest value generated.
+![image](https://github.com/user-attachments/assets/b8c97e31-e163-49a9-a663-50c4fed106b1)
+
+### Step 4: Creating the RFM segment column and RFM score column
+![image](https://github.com/user-attachments/assets/9291cbf4-49dc-4fcc-98b6-085406826816)
+In order to quickly sort and rank the customers, a RFM score is needed, which can also give us a better overall asessment and comparison.
+![image](https://github.com/user-attachments/assets/467b4e01-032b-4084-89a4-8f2de1902bab)
+
+Let’s take a closer look at the mean scores for each category.
+![image](https://github.com/user-attachments/assets/f9d7ac07-14bf-428e-952b-3957212e46db)
+
+This figure provides us with a more comprehensive understanding of Superstore's customers. By examining the customers with the lowest rfm_score of 3, we observe that they have an average recency of 307 days, place a single order, and generate approximately 139 dollars in revenue. In contrast, the highest scorers in rfm_score indicate that they engaged with Superstore less than a month ago, made more than 22 orders, and generated over 11,000 dollars in revenue. On top of that, the table allows Superstore's marketers to see who to target with reactivation campaigns or who should be given special treatment to have them continue being the champions.
+
+### Step 5: Joining data (seg_df)
+Now, we merge with the seg_df to label our customers with a name.
+
+![image](https://github.com/user-attachments/assets/99e51bc0-fa22-4ba4-a8f1-4872a5c76de9)
+
+
+Making sure the rfm_value is the correct data type (we don't want to perform any aggregation on it)
+
+![image](https://github.com/user-attachments/assets/24dfcaf3-c0b8-4d3a-ae2b-b8f889cf48c9)
+
+Merge the column with our customer_rfm_df created earlier on `rfm_value`
+![image](https://github.com/user-attachments/assets/cc51b80b-cbed-431b-9042-5297d34d3f9c)
+
+We are now ready to visualize and analyze the result
+![image](https://github.com/user-attachments/assets/c7cd16ee-cdc0-4fc8-b8ad-732590137f4e)
