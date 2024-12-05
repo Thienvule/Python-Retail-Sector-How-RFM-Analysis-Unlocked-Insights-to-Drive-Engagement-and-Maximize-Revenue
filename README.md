@@ -1,9 +1,8 @@
-# python_rfm 
-Python - Superstore - Using RFM analysis to better promotional campaign
+# Python | Retail Sector | How RFM Analysis Unlocked Insights to Drive Engagement and Maximize Revenue
 
 ## Context Overview
 Business Context
-SuperStore: A global online retailer facing challenges in understanding and segmenting its customer base.
+Superstore, like many ecommerce businesses, struggles to effectively retain its most valuable customers and maximize revenue. With an increasing volume of transactional data, understanding customer behavior is critical for segmentation, targeted marketing, and loyalty-building initiatives. T
 Marketing Goals:
 - Understand purchasing behavior to improve retention strategies through promotional campaigns.
 - Differentiate between loyal and one-time customers to optimize marketing campaigns.
@@ -25,6 +24,7 @@ ecommerce retail table:
 RFM table
 ![image](https://github.com/user-attachments/assets/76e64b69-61e9-4555-966b-b4e41b056712)
 
+Critical question to answer for this project: How can Superstore effectively leverage RFM segmentation to foster stronger customer relationships, re-engage at-risk segments, and gain actionable insights into customer behaviors that ensure profit maximization and long-term retention?
 ## Action
 ### Stage 1: Conducting Exploratory Data Analysis
 #### Step 1: Installing libraries
@@ -245,5 +245,208 @@ Making sure the rfm_value is the correct data type (we don't want to perform any
 Merge the column with our customer_rfm_df created earlier on `rfm_value`
 ![image](https://github.com/user-attachments/assets/cc51b80b-cbed-431b-9042-5297d34d3f9c)
 
-We are now ready to visualize and analyze the result
+We are now ready to visualize and analyze the result.
 ![image](https://github.com/user-attachments/assets/c7cd16ee-cdc0-4fc8-b8ad-732590137f4e)
+
+### Stage 4: RFM Visualization
+To illustrate RFM, the best visualization would be tree map.
+![image](https://github.com/user-attachments/assets/84e58a00-4087-4402-ae63-af146f6a2b36)
+
+Setting up colors and construct `segment_count`, which is used to count each segment's number.
+
+![image](https://github.com/user-attachments/assets/1b2de516-7946-4ec3-ba80-e1decd089978)
+
+Merging customer_rfm_df and ecom_df to facilitate the visualization and future aggregation if need be.
+
+![image](https://github.com/user-attachments/assets/874f7ee2-be16-4cc5-8868-cd903723d7c8)
+
+Visualizing the RFM tree map based on sales and customer number
+Segment by customer: Top segments include 
+- Champion
+- Hibernating
+- Potential Loyalist
+- Loyal
+- Need attention
+- At risk
+- Lost customers
+![image](https://github.com/user-attachments/assets/0bcfee59-b1f1-426d-9a51-028bea3ca850)
+
+Segment by sales: Top segments include 
+- Champion
+- Loyal
+- At risk
+- Potential Loyalist
+- Need attention
+- Hibernating customers
+- Cannot lose them
+![image](https://github.com/user-attachments/assets/493b8a55-1583-474e-9043-fb4c487ef8bf)
+
+Based on our analysis, we should focus our efforts primarily on the following customer segments: Champions, Loyal customers, At-risk customers, Potential Loyalists, Customers Needing Attention, and Hibernating customers. If we have additional resources, we should also prioritize managing the Cannot Lose, Promising, and New customers. Meanwhile, we can deprioritize our efforts on Lost Customers, as they do not contribute significantly to our overall value.
+
+To gain insight into the behaviors of these segments, let’s examine their actions through the lens of score distribution.
+
+![image](https://github.com/user-attachments/assets/04b4b94a-8bdb-4137-a43c-a9097782d1c8)
+![image](https://github.com/user-attachments/assets/13b87d39-180b-4cd4-bd99-59d283033e29)
+
+
+These two figures provide valuable insights into the behaviors of each segment, enabling us to determine the best strategies for targeting them. For instance, if we see that the scores for the Loyal and Champion segments are 13, 14, and 15, we can refer to the table to analyze their specific recency, frequency, and monetary values. Armed with this information, we can design personalized marketing campaigns that recur every month, featuring appropriately bundled items valued between $2600 and $10000.
+
+
+The column chart above displays the relationship between segments and their corresponding RFM scores. The bar charts illustrate the performance of each score (3 to 15) in terms of recency, frequency, and monetary values.
+
+- Champions: They bought most recently (under 2 months), most often (7-20 times), and are heavy spenders (more than 4000 dollars) (Score 13-15).
+- Loyal Customers: They are consistent and frequent shoppers who have made recent purchases and spent a significant amount (Score 11-13).
+- Potential Loyalists: They are recent customers (2-4 months) with average frequency (under 10 times) and who spent a good amount (between 1000 to 4000 dollars) (Score 8-13).
+- At Risk Customers: They purchased often and spent big amounts but haven't made a purchase recently. Their mean recency ranges from 2 to 4 months (Score 7-12).
+- Need Attention Customers: They were once valuable customers but have become less engaged over time. Currently, they are active, purchasing quite frequently, and generating a good amount of revenue (Score 9-13).
+- Promising Customers: They show potential for becoming loyal and valuable to Superstore. They have moderate RFM scores, indicating recent engagement (2-4 months ago), average frequency (under 5 times), and a moderate spending amount (under 2000 dollars) (Score 7-10).
+- New Customers: Their most recent engagement was roughly 6 months ago. They have a moderate overall RFM score, infrequent purchases (under 5 times), and generate a subtle monetary impact (under 2000 dollars) (Score 5-8).
+- Can't Lose Them: They used to visit and purchase quite often but haven't been visiting recently. They share similar traits with current New Customers (Score 5-8).
+- Hibernating Customers: They haven't made a purchase recently (more than 6 months ago) and their past purchasing behavior was infrequent with small spending amounts (Score 5-8).
+- About to Sleep: They recently made a purchase but haven't been active or frequent shoppers (Score 5-7).
+- Lost Customers: They have low recency and frequency scores, indicating they haven't made a purchase in a long time and were infrequent shoppers (Score 1-4).
+
+
+Taking a look at the spending pattern of each segment this year:
+![image](https://github.com/user-attachments/assets/f302a351-69e0-4241-8e65-c3e16d862e6a)
+
+At first glance, the segment performance breakdown could be analyzed as follows:
+Champions:
+- Champions are Superstore's best customers, who bought most recently, most often, and are heavy spenders.
+- After a year, the revenue generated from these customers skyrocketted, indicating Superstore's success in taking care of them.
+- Dominating in terms of customer quantity and revenue generation.
+- Considered as breadwinners for the company.
+- High-value and highly engaged customers.
+Hibernating Customers:
+- Substantial customer quantity but generate modest revenue.
+- Low engagement and value contribution.
+- Hiberanating customers are waking up, potentially on their way transforming into the more preferred segments.
+Loyal:
+- Dominating segment in terms of customer quantity and revenue generation.
+- High-value and highly engaged customers.
+- Similar to the Champions, Superstore are giving the loyalists what they really want.
+At Risk:
+- Considered as breadwinners for the company.
+- High customer quantity and revenue generation.
+- Substantial revenue generated after a year
+- However, there may be some concerns about their future engagement and loyalty.
+Need Attention
+- Generated great amount of revenue
+- With a potential customer base
+Potential Loyalists:
+- Potential Loyalists are your recent customers with average frequency and who spent a good amount.
+- Considered as breadwinners for the company.
+- Moderate customer quantity, but they show potential for higher engagement and revenue generation.
+Lost Customers:
+- Substantial customer quantity but generate insignificant value to the company.
+- These are customers who have stopped engaging with the company and may need efforts to regain their interest.
+Cannot Lose Them:
+- The impact of this segment is equivalent to their numbers.
+- High-value customers who are crucial for the company's success.
+New and Promising:
+- Currently generating subtle impact to the business.
+- The number of new customers is moderate, but they have the potential to become more valuable over time.
+About To Sleep:
+- Substantial customer quantity but generate insignificant value to the company.
+- These customers may be at risk of disengagement and require attention to prevent them from becoming lost customers.
+Based on this analysis, the company should focus on maximizing the potential of the breadwinners (Champions, At Risk, Loyal, Need Attention, and Potential Loyalist) while re-engaging with the Hibernating customers. Additionally, efforts can be made to nurture the New and Promising segment to increase their impact on the business.
+
+We will gain insights into our customers' performance based on each type of RFM score. In this step, I will tally the number of customers assigned to each specific RFM score to assess the company’s overall performance.
+
+![image](https://github.com/user-attachments/assets/917d2451-abe8-4ffa-83d2-0c5e7ad01dd4)
+
+In general, Superstore is performing well in terms of its most impactful RFM score - recency, as the majority of their customers fall into the active range. This suggests that the company is successful in both acquiring and retaining its customers.
+
+When considering the F and R scores, which exhibit skewed distributions, we can observe that a large portion of customers have scores of 4 or 5. This indicates that, overall, the company is performing exceptionally well.
+
+
+## Recommendation
+**Champions: **
+This segment consists of customers who have made recent purchases, are frequent shoppers, and are heavy spenders and they are performing exceptionally well. Prioritizing this segment can have a significant impact on Superstore's revenue during the Christmas season.
+- Offer exclusive early access to Christmas sales or promotions, allowing them to shop before the general public.
+- Provide them with special discounts or coupons to thank them for their loyalty and encourage them to make additional purchases.
+- Consider organizing an exclusive event or VIP shopping experience for Champions, where they can enjoy personalized assistance and special perks.
+- Doing so can lead to increased spending, repeat purchases, positive word-of-mouth, and potentially attracting new customers who aspire to be part of this esteemed segment. Prioritizing Champions can contribute to driving substantial sales growth and building a strong customer base.
+
+**Loyal Customers:**
+This segment has consistent and frequent shoppers who have made recent purchases and spent a significant amount. They are doing thriving, yet not as much as the Champions. Our goal is to convert them gradually into Champions.
+- Send personalized thank-you notes expressing gratitude for their continued support and loyalty. Offer them exclusive discounts or rewards as a token of appreciation for their frequent visits and purchases. Provide recommendations for Christmas gift ideas based on their past purchases, helping them find the perfect gifts for their loved ones.
+- Doing so can help Superstore:
+  - Strengthen customer-brand relationships, boosting loyalty and repeat purchases.
+  - Harness word-of-mouth marketing as loyal customers become brand advocates and share positive experiences.
+  - Maximize customer lifetime value with ongoing purchases and potential upselling opportunities.
+  - Foster emotional connections, enhancing the customer experience and brand perception.
+
+**Potential Loyalists:**
+By prioritizing potential loyalists, Superstore can increase engagement, convert them into loyal customers, drive revenue growth, boost customer lifetime value, generate positive word-of-mouth, and foster brand loyalty.
+- Offer membership or loyalty programs or recommend related products to upsell them and help them become your Loyalists or Champions.
+- Invite them to join a loyalty program or membership that offers benefits and rewards during the Christmas season.
+- Recommend related products or accessories that complement their previous purchases, suggesting they explore additional items.
+- Provide personalized product suggestions based on their preferences and buying history, showcasing the variety of Christmas-related products available.
+
+**At Risk Customers:**
+Our At Risk customers are generating good revenue, we should not neglect them in this campaign. Prioritizing At Risk customers can prevent revenue loss, retain their business, uncover upselling opportunities, build loyalty, gather valuable insights, and preserve advocacy potential.
+To do:
+- Send them personalized reactivation campaigns to reconnect, and offer renewals and helpful products to encourage another purchase.
+- Reconnect with personalized Christmas-themed campaigns, reminding them of their past purchases and the value they received.
+- Offer them exclusive discounts or promotions to encourage them to make a Christmas purchase and re-engage with the brand.
+- Highlight any improvements, new product lines, or special holiday offers to reignite their interest and show that Superstore is committed to their satisfaction.
+
+**Need Attention Customers:**
+- Similar to the At Risk customers, Need Attention customers are potential enough for us to invest in. We can:
+- Express appreciation for their continued support and recent purchases, thanking them for their loyalty.
+- Offer them exclusive promotions or discounts on Christmas-related products to encourage repeat purchases.
+- Provide personalized recommendations based on their preferences and past purchases, demonstrating that their needs are understood and catered to.
+
+If we have more resources, invest a bit in these customers:
+**Promising Customers:**
+We can invest subtly in these customers by:
+- Extend a warm thank-you message for their recent engagement and potential as valuable customers.
+- Offer them special promotions or discounts on Christmas-related products, encouraging them to explore more and solidify their relationship with the brand.
+- Provide personalized product suggestions based on their recent engagement, showcasing relevant Christmas items or limited edition products.
+**New Customers:**
+These customers are unknown, who might be a Champion customer one day. We should show our hospitality.
+- Start building relationships with these customers by providing onboarding support and special Christmas offers to increase their visits.
+- Welcome them to Superstore and express gratitude for choosing the brand for their Christmas shopping.
+- Offer them a special first-time customer discount or incentive to encourage repeat purchases.
+- Provide guidance on Christmas gift ideas or popular products, helping them navigate their holiday shopping experience.
+
+**Can't Lose Them:**
+- Taking a good look into our history with these customers to gain insights is wise as we don't want other segments' customers to fall into the danger zone. We should:
+- Bring them back with relevant promotions, and run surveys to find out what went wrong and avoid losing them to a competitor.
+- Re-engage with personalized messages, reminding them of their past frequent visits and purchases.
+- Offer them special incentives, such as loyalty rewards or personalized promotions, to encourage them to return and make a Christmas purchase.
+- Request feedback or conduct surveys to understand any concerns or issues they might have, and take steps to address them promptly.
+
+**Hibernating Customers:**
+- Rekindle their interest with a heartfelt Christmas-themed message, expressing a desire to reconnect.
+- Offer them exclusive discounts or incentives to encourage them to make a Christmas purchase and rediscover the brand's offerings.
+- Highlight any improvements or new products/services since their last engagement, showcasing the brand's commitment to providing value.
+
+**About to Sleep:**
+- Send a gentle reminder of their recent purchase and express appreciation for their support.
+- Offer personalized recommendations or suggestions for Christmas gifts or related items based on their previous purchase.
+- Highlight any limited-time offers or promotions to motivate them to make additional purchases during the holiday season.
+
+**Lost Customers:**
+- Express appreciation for their past support and extend a genuine invitation to reconnect during the Christmas season.
+- Offer a special one-time discount or incentive to encourage them to make a comeback.
+- Share updates on improvements, new product lines, or customer-centric initiatives to reignite their interest and show that the brand has evolved.
+
+
+### Abnormal Transactions Analysis
+Now, to address abnormal transactions, we will identify the customers involved in them and consider launching additional campaigns tailored to these customers. We will merge the abnormal transaction data frame we created earlier with the customer RFM data frame.
+
+![image](https://github.com/user-attachments/assets/8368829d-b845-460a-b6d1-776d7a4c530c)
+
+
+It seems that our targeted segments in the recommendation part are more likely to be involved in abnormal transactions, which is indeed a good signs 
+![image](https://github.com/user-attachments/assets/09d2993e-2361-449e-bf1a-2e016ad1e01d)
+
+In terms of personalizing our campaigns, this table will be utilized for deeper analysis and to launch targeted campaigns aimed at maximizing value from these customers.
+
+![image](https://github.com/user-attachments/assets/a985708a-2bc8-456b-814d-45ba57caeac4)
+
+
+
+
