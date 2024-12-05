@@ -40,7 +40,9 @@ To drop null values, we would utilize .dropna() method
 ![image](https://github.com/user-attachments/assets/4af88d23-e516-4b8c-a475-26ee7ccf5d7e)
 
 The dataframe is now clean, allowing us to explore some fundamental statistics using the .describe() method.
+
 ![image](https://github.com/user-attachments/assets/ddd7a433-0a64-4dc1-9f77-322348c49e15)
+
 It is not valid for the minimum quantity to be less than zero, indicating the need for data manipulation. Any rows containing quantity values below zero will be removed. Converting these negative values to zero would artificially inflate the frequency, leading to potentially misleading insights.
 
 ![image](https://github.com/user-attachments/assets/d649c097-1c1d-4ce4-8111-c8fe25b4ede2)
@@ -83,21 +85,26 @@ It is not valid for the minimum quantity to be less than zero, indicating the ne
 - Pricing Strategy: Insights into pricing can inform marketing tactics, such as bundling lower-priced items.
 
 For categorical columns such as Stock Code and Country, I am interested in determining the number of unique products sold and the count of customers in each country.
+
 ![image](https://github.com/user-attachments/assets/c3ab8e90-7f94-4ee1-93cb-1d149ca79eeb)
 
 Now, let's visualize the distribution of these key metrics to gain a clearer understanding of them.
 
 #### Step 3: Ditribution Visualization
 As for the key metrics of `Quantity` and `UnitPrice`, we can:
+
 ![image](https://github.com/user-attachments/assets/3d7b9cc0-f917-486c-9a77-58e885f41cf3)
 ![image](https://github.com/user-attachments/assets/e482edf5-7503-40ac-b45b-e01bc2f3d2ba)
 
 
 As illustrated, the outliers are distorting the distribution, making it challenging to identify normal distributions. While we must remain aware that these outliers could provide valuable insights, we should first examine the normal distribution.
+
 ![image](https://github.com/user-attachments/assets/819155e2-6dc1-4cc9-9f20-8ae83bb8ac4b)
 
 Customers typically purchase baskets containing either 2 to 5 items or approximately 10 to 15 items.
+
 ![image](https://github.com/user-attachments/assets/5f3c2bdb-2857-421b-a33a-edc7ec32a5d5)
+
 The preferred price points for customers typically range from $1 to $2, while the overall distribution of prices spans from just above $0 to $7. This indicates that most purchases are concentrated at lower price levels, with a small portion extending towards the higher end of the spectrum.
 
 To address the anomalies, I will organize those transactions into a dataframe. This will allow us to identify the customer segments associated with these outlier transactions and analyze their behaviors in order to gain deeper insights.
@@ -105,7 +112,9 @@ To address the anomalies, I will organize those transactions into a dataframe. T
 ![image](https://github.com/user-attachments/assets/02d7492b-a9ca-4b2d-a957-6bd26a1c281f)
 
 Before moving on, a column of `Revenue` would be added to the original dataframe of ecom_df to confirm what we've known.
+
 ![image](https://github.com/user-attachments/assets/0faf6718-eeae-488c-818b-0de157cb3411)
+
 **Statistics**
 - Mean: The average revenue per transaction is approximately $21.90. This value provides a baseline for understanding typical sales amounts.
 - Standard Deviation (std): quite high relative to the mean, indicating significant variability in revenue. This suggests that while many transactions hover around the mean, there are numerous transactions (especially high-revenue transactions) that contribute to this high variability.
@@ -122,10 +131,12 @@ Before moving on, a column of `Revenue` would be added to the original dataframe
 - Transactional Insights: The difference between the 25th percentile ($4.20) and the median ($11.10) indicates that while there are low-value transactions, the median revenue rises significantly, showing that many customers are also purchasing more expensive items.
 
 This histogram (outliers removed) will confirm the insights provided: 
+
 ![image](https://github.com/user-attachments/assets/46c4d1a2-19f4-4744-9713-229c285a112c)
 
 
 As for categorical variables - `Country`:
+
 ![image](https://github.com/user-attachments/assets/8cea9d4b-40f8-49c0-83a4-6910482eb3ba)
 
 ### Stage 2: RFM Calculation and Exploration
@@ -136,8 +147,10 @@ As RFM is a customer-level metric (we label customers one by one), a unique cust
 
 #### Step 2: Calculate Customer Recency
 Recency = the nearest date that the customers engaged with us through purchases => 
+
 ![image](https://github.com/user-attachments/assets/44fd78dc-e659-46be-ab69-08b4850bc4ba)
 Renaming the column to match the context: 
+
 ![image](https://github.com/user-attachments/assets/6f9587e7-2eb3-4338-b45e-1a96e873fc05)
 
 Given the context of the dataset's date, I will treat "2012-01-01" as the current date. We will proceed to create a "recency" column that calculates the number of days from "recency_date" to "2012-01-01". This duration is referred to as the timedelta between the analysis date and the "recency_date." The resulting time difference will then be divided by a timedelta representing one day to convert it into a numerical value that indicates recency in days. Below is an explanation of how the code functions:
@@ -153,6 +166,7 @@ Frequency refers to the number of times customers have made purchases, determine
 
 #### Step 4: Calculate Customer Monetary
 Monetary value essentially represents revenue, which we have established previously. Our next step is to rename the column to "monetary" and incorporate it into the ecom_customer dataframe. Here’s the process:
+
 ![image](https://github.com/user-attachments/assets/2d64f5f3-0d25-48e5-b811-0efca6d48083)
 
 ##### Step 5: Examine the statistical distributions
@@ -215,19 +229,25 @@ For instance, let's say the first bin edge is at 50, and the second bin edge is 
 Solution: Using .rank(method = 'first')
 
 This method assigns a unique position or rank to each value based on their order within the data. This guarantees that each value is distinct and eliminates the possibility of overlapping bin edges.
+
 ![image](https://github.com/user-attachments/assets/1f0f6247-1a97-4fe3-bd33-bc6a7d860a07)
 ![image](https://github.com/user-attachments/assets/80d8e3d5-9ba5-4fb0-b280-17ebea3a27ab)
 
 #### Step 3: Calculate the M score
 Moving forward, the scale will range from 1 to 5, with 5 representing the highest value generated.
+
 ![image](https://github.com/user-attachments/assets/b8c97e31-e163-49a9-a663-50c4fed106b1)
 
 ### Step 4: Creating the RFM segment column and RFM score column
+
 ![image](https://github.com/user-attachments/assets/9291cbf4-49dc-4fcc-98b6-085406826816)
+
 In order to quickly sort and rank the customers, a RFM score is needed, which can also give us a better overall asessment and comparison.
+
 ![image](https://github.com/user-attachments/assets/467b4e01-032b-4084-89a4-8f2de1902bab)
 
 Let’s take a closer look at the mean scores for each category.
+
 ![image](https://github.com/user-attachments/assets/f9d7ac07-14bf-428e-952b-3957212e46db)
 
 This figure provides us with a more comprehensive understanding of Superstore's customers. By examining the customers with the lowest rfm_score of 3, we observe that they have an average recency of 307 days, place a single order, and generate approximately 139 dollars in revenue. In contrast, the highest scorers in rfm_score indicate that they engaged with Superstore less than a month ago, made more than 22 orders, and generated over 11,000 dollars in revenue. On top of that, the table allows Superstore's marketers to see who to target with reactivation campaigns or who should be given special treatment to have them continue being the champions.
@@ -269,6 +289,7 @@ Segment by customer: Top segments include
 - Need attention
 - At risk
 - Lost customers
+- 
 ![image](https://github.com/user-attachments/assets/0bcfee59-b1f1-426d-9a51-028bea3ca850)
 
 Segment by sales: Top segments include 
@@ -279,6 +300,7 @@ Segment by sales: Top segments include
 - Need attention
 - Hibernating customers
 - Cannot lose them
+  
 ![image](https://github.com/user-attachments/assets/493b8a55-1583-474e-9043-fb4c487ef8bf)
 
 Based on our analysis, we should focus our efforts primarily on the following customer segments: Champions, Loyal customers, At-risk customers, Potential Loyalists, Customers Needing Attention, and Hibernating customers. If we have additional resources, we should also prioritize managing the Cannot Lose, Promising, and New customers. Meanwhile, we can deprioritize our efforts on Lost Customers, as they do not contribute significantly to our overall value.
@@ -308,6 +330,7 @@ The column chart above displays the relationship between segments and their corr
 
 
 Taking a look at the spending pattern of each segment this year:
+
 ![image](https://github.com/user-attachments/assets/f302a351-69e0-4241-8e65-c3e16d862e6a)
 
 At first glance, the segment performance breakdown could be analyzed as follows:
