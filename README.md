@@ -2,7 +2,8 @@
 
 ## Context Overview
 Business Context
-Superstore, like many ecommerce businesses, struggles to effectively retain its most valuable customers and maximize revenue. With an increasing volume of transactional data, understanding customer behavior is critical for segmentation, targeted marketing, and loyalty-building initiatives. T
+Superstore, like many ecommerce businesses, struggles to effectively retain its most valuable customers and maximize revenue. With an increasing volume of transactional data, understanding customer behavior is critical for segmentation, targeted marketing, and loyalty-building initiatives.
+
 Marketing Goals:
 - Understand purchasing behavior to improve retention strategies through promotional campaigns.
 - Differentiate between loyal and one-time customers to optimize marketing campaigns.
