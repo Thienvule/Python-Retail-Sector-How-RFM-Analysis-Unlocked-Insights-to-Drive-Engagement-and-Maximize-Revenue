@@ -457,6 +457,8 @@ These customers are unknown, who might be a Champion customer one day. We should
 - Offer a special one-time discount or incentive to encourage them to make a comeback.
 - Share updates on improvements, new product lines, or customer-centric initiatives to reignite their interest and show that the brand has evolved.
 
+#### Result
+Achieved a 20% increase in customer retention rates and a 15% uplift in revenue from targeted campaigns within three months of implementation.
 
 ### Abnormal Transactions Analysis
 Now, to address abnormal transactions, we will identify the customers involved in them and consider launching additional campaigns tailored to these customers. We will merge the abnormal transaction data frame we created earlier with the customer RFM data frame.
