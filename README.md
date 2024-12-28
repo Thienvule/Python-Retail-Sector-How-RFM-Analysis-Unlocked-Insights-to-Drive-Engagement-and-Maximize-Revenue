@@ -1,4 +1,4 @@
-# Python | Retail Sector | How RFM Analysis Unlocked Insights to Drive Engagement and Maximize Revenue
+# Retail | RFM Analysis | Python
 
 ## Context Overview
 Business Context
